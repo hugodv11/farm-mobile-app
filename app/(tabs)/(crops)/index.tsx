@@ -1,25 +1,23 @@
-import { getCrops, getDBConnection } from "@/app/services/db-service";
+import { getCrops } from "@/app/services/crop-services";
+import { useSQLiteContext } from "expo-sqlite";
 import { useEffect, useState } from "react";
 import { ActivityIndicator, Text, View } from "react-native";
 
 export default function Crops() {
+  const dbCtx = useSQLiteContext();
+
   const [loading, setLoading] = useState(true);
-  const [crops, setCrops] = useState([]);
+  const [crops, setCrops] = useState([] as any[]);
 
   useEffect(() => {
     const loadCrops = async () => {
-      const db = await getDBConnection();
-      const cropsResult = await getCrops(db);
-
+      const cropsResult = await getCrops(dbCtx);
       console.log(cropsResult);
-
-      setLoading(false);
-
-      return cropsResult;
+      setCrops(cropsResult);
     };
 
-    setCrops(loadCrops());
-  }, []);
+    loadCrops().finally(() => setLoading(false));
+  });
 
   if (loading) {
     return (

@@ -1,9 +1,11 @@
 import React from "react";
+import { SQLiteProvider, type SQLiteDatabase } from "expo-sqlite";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
 import { ParamListBase, RouteProp } from "@react-navigation/native";
 import MapScreen from "./(map)";
 import CropsScreen from "./(crops)";
+import { createDefaultTables } from "@/app/services/db-service";
 
 const Tab = createBottomTabNavigator();
 
@@ -20,24 +22,30 @@ const getTabIcon = (route: RouteProp<ParamListBase, string>) => {
   }
 };
 
+const initDb = async (db: SQLiteDatabase) => {
+  await createDefaultTables(db);
+};
+
 export default function TabLayout() {
   return (
-    <Tab.Navigator
-      initialRouteName="crops"
-      screenOptions={({ route }) => ({
-        tabBarIcon: () => getTabIcon(route),
-      })}
-    >
-      <Tab.Screen
-        name="map"
-        component={MapScreen}
-        options={{ headerShown: false }}
-      />
-      <Tab.Screen
-        name="crops"
-        component={CropsScreen}
-        options={{ headerShown: false }}
-      />
-    </Tab.Navigator>
+    <SQLiteProvider databaseName="farm-app.db" onInit={initDb}>
+      <Tab.Navigator
+        initialRouteName="crops"
+        screenOptions={({ route }) => ({
+          tabBarIcon: () => getTabIcon(route),
+        })}
+      >
+        <Tab.Screen
+          name="map"
+          component={MapScreen}
+          options={{ headerShown: false }}
+        />
+        <Tab.Screen
+          name="crops"
+          component={CropsScreen}
+          options={{ headerShown: false }}
+        />
+      </Tab.Navigator>
+    </SQLiteProvider>
   );
 }
