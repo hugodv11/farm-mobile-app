@@ -12,12 +12,11 @@ export default function Crops() {
   useEffect(() => {
     const loadCrops = async () => {
       const cropsResult = await getCrops(dbCtx);
-      console.log(cropsResult);
       setCrops(cropsResult);
     };
 
     loadCrops().finally(() => setLoading(false));
-  });
+  }, []);
 
   if (loading) {
     return (
