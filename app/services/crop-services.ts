@@ -3,7 +3,7 @@ import * as SQLite from "expo-sqlite";
 export const getCrops = async (db: SQLite.SQLiteDatabase) => {
   try {
     const results = await db.getAllAsync(
-      "SELECT rowid as id, name, description FROM crops",
+      "SELECT id, name, description, season FROM crops",
     );
 
     return results;
