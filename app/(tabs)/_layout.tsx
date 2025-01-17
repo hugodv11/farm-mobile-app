@@ -5,7 +5,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { ParamListBase, RouteProp } from "@react-navigation/native";
 import MapScreen from "./(map)";
 import CropsScreen from "./(crops)";
-import { createDefaultTables, defaultInserts } from "@/app/services/db-service";
+import { initMigration } from "@/app/services/db-service";
 
 const Tab = createBottomTabNavigator();
 
@@ -22,10 +22,7 @@ const getTabIcon = (route: RouteProp<ParamListBase, string>) => {
   }
 };
 
-const initDb = async (db: SQLiteDatabase) => {
-  await createDefaultTables(db);
-  await defaultInserts(db);
-};
+const initDb = async (db: SQLiteDatabase) => initMigration(db);
 
 export default function TabLayout() {
   return (
