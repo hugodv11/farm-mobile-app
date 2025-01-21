@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "farm-app",
-    "slug": "farm-app",
+    "name": "FincaMap",
+    "slug": "fincamap",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",

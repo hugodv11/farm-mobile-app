@@ -26,7 +26,7 @@ const initDb = async (db: SQLiteDatabase) => initMigration(db);
 
 export default function TabLayout() {
   return (
-    <SQLiteProvider databaseName="farm-app.db" onInit={initDb}>
+    <SQLiteProvider databaseName="fincamap.db" onInit={initDb}>
       <Tab.Navigator
         initialRouteName="crops"
         screenOptions={({ route }) => ({
